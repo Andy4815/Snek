@@ -4,28 +4,27 @@
 #include <iostream>
 
 namespace game {
-
+	
 	GameController::GameController (sf::RenderWindow* w) : snake (w) {
 		screen = w;
 		score = 0;
 	}
 
-	void GameController::start () {
-		loadResources ();
-		gameLoop ();
+	void GameController::Start () {
+		LoadResources ();
+		GameLoop ();
 	}
 
-	void GameController::gameLoop (){
+	void GameController::GameLoop () {
 		bool loopInvarient = true;
-
 		sf::Vector2<int> direction (-1, 0);
 		scale = 5;
-
 		Food* food = new Food (screen, snake.getNextFoodLocation ());
 
 		while (loopInvarient) {
-			setupScene ();
+			SetupScene ();
 			food->DrawFood ();
+
 			sf::Event event;
 
 			while (screen->pollEvent (event)) {
@@ -34,29 +33,26 @@ namespace game {
 						direction.y = -1;
 						direction.x = 0;
 					}
-
 					else if (event.key.code == sf::Keyboard::Down) {
-						direction.y = 1;
+						direction.y = -1;
 						direction.x = 0;
 					}
-
 					else if (event.key.code == sf::Keyboard::Left) {
 						direction.x = -1;
 						direction.y = 0;
 					}
-
 					else if (event.key.code == sf::Keyboard::Right) {
 						direction.x = 1;
 						direction.y = 0;
 					}
-				}
+				}//direction loop
 
 				if (event.type == sf::Event::Closed) {
 					exit (0);
 				}
-			} //event loop
+			}//event loop
 
-			snake.moveSnake (direction);
+			snake.MoveSnake (direction);
 
 			if (snake.died ()) {
 				loopInvarient = false;
@@ -71,14 +67,19 @@ namespace game {
 			screen->display ();
 			screen->setFramerateLimit (60);
 		}
-	} //gameLoop()
+	}//gameLoop()
 
-	void GameController::setupScene () {
+	void GameController::SetupScene () {
 		screen->clear ();
-		snake.drawSnake ();
+		snake.DrawSnake ();
 	}
 
-	bool checkCollision (const sf::RectangleShape& a, const sf::RectangleShape& b) {
+	bool GameController::checkCollisionB (const sf::RectangleShape& a, const sf::RectangleShape& b) {
+		return a.getGlobalBounds ().intersects (b.getGlobalBounds ());
+	}
+
+	bool checkCollisionA (const sf::RectangleShape a, const sf::RectangleShape& b)
+	{
 		return a.getGlobalBounds ().intersects (b.getGlobalBounds ());
 	}
 
@@ -89,9 +90,14 @@ namespace game {
 		return box;
 	}
 
-	void GameController::loadResources () {
-		//To be done
+	void GameController::LoadResources () {
+		//todo
 	}
+
+	/*bool GameController::checkCollision (const sf::RectangleShape shapeA, const sf::RectangleShape shapeB)
+	{
+		return false;
+	}*/
 
 	sf::Font* GameController::getFont (Fonts font) {
 		return &fontList[font];

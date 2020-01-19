@@ -1,17 +1,19 @@
 #pragma once
-#include "GameMenu.h"
+
 #include <SFML/Graphics.hpp>
 
-namespace game {
+#include "GameMenu.h"
 
+namespace game {
 	class MainMenu {
 	public:
 
-		void start (sf::RenderWindow* w);
+		void Start (sf::RenderWindow* w);
+
 	private:
 
-		gmenu::MenuItem menuItems[4];
-		gmenu::Action* action[4];
+		gameMenu::MenuItem menuItems[4];
+		gameMenu::Action* action[4];
 
 		char MenuText[4][15] = {
 			"Start",
@@ -21,60 +23,76 @@ namespace game {
 		};
 	};
 
-	class StartGameAction : public gmenu::Action {
+	class StartGameAction :public gameMenu::Action {
 	public:
+
 		StartGameAction (sf::RenderWindow*);
 		bool start ();
+
 	private:
+
 		sf::RenderWindow* window;
 	};
-	class HighScoreAction : public gmenu::Action {
+
+	class HighScoreAction :public gameMenu::Action {
 	public:
+
 		HighScoreAction (sf::RenderWindow*);
 		bool start ();
+
 	private:
+
 		sf::RenderWindow* window;
 	};
-	class OptionsAction : public gmenu::Action {
+
+	class OptionsAction :public gameMenu::Action {
 	public:
+
 		OptionsAction (sf::RenderWindow*);
 		bool start ();
+
 	private:
+
 		sf::RenderWindow* window;
 	};
 
-	class ExitAction : public gmenu::Action {
+	class ExitAction :public gameMenu::Action {
 	public:
+
 		ExitAction (sf::RenderWindow*);
 		bool start ();
-	private:
-		bool getConfirmation ();
 
+	private:
+
+		bool getConfirmation ();
 		sf::RenderWindow* window;
 
-		class ConfirmationMenuAction : public gmenu::Action {
+		class ConfirmationMenuAction :public gameMenu::Action {
 			bool* confirm;
 		public:
+
 			ConfirmationMenuAction (bool* val) {
 				confirm = val;
 			}
+
 			bool start () {
 				*confirm = true;
 				return false;
 			}
 		};
-		
-		class DeclineMenuAction : public gmenu::Action {
+
+		class DeclineMenuAction :public gameMenu::Action {
 			bool* confirm;
 		public:
+
 			DeclineMenuAction (bool* val) {
 				confirm = val;
 			}
+
 			bool start () {
 				*confirm = false;
 				return false;
 			}
 		};
 	};
-
 }

@@ -1,13 +1,12 @@
 #pragma once
 
-#define SS_GAME_H
+#include <SFML/Graphics.hpp>
 
 #include "Snake.h"
 #include "Food.h"
 
-#include <SFML/Graphics.hpp>
-#include <random>
 #include <list>
+#include <random>
 
 #define BOX_SIZE 20
 
@@ -20,7 +19,7 @@ namespace game {
 		"Exit"
 	};
 
-	enum MenuText {
+	enum MenuText{
 		GameOver,
 		Continue,
 		Yes,
@@ -29,27 +28,32 @@ namespace game {
 	};
 
 	enum Fonts {
-
+		//todo
 	};
 
 	class GameController {
-	public:		
+	public:
+
 		GameController (sf::RenderWindow* w);
-
-		void start ();
-
+		void Start ();
 		sf::Font* getFont (Fonts font);
+
+
 	private:
-		void gameLoop ();
-		void setupScene ();
-		void gameOver ();
-		void loadResources ();
+
+		void GameLoop ();
+		void SetupScene ();
+		void GameOver ();
+		void LoadResources ();
+		
+		bool checkCollisionB (const sf::RectangleShape& shapeA, const sf::RectangleShape& shapeB);
 
 		Snake snake;
+
 		sf::RenderWindow* screen;
+		sf::Font fontList[3];
+
 		float scale;
 		int score;
-
-		sf::Font fontList[3];
 	};
 }

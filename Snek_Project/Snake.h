@@ -1,23 +1,21 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+#include "Food.h"
+
 #include <list>
 #include <random>
 
-#include "Food.h"
-
-#define SNAKE_MAX_LENGHT 2000
+#define SNAKE_MAX_LENGH 2000
 
 namespace game {
 	class Random {
-
 		std::random_device rd;
 		std::mt19937 gen;
-
 	public:
 
 		Random () {
-			gen.seed (rd ());
+			gen.seed (rd());
 		}
 
 		int getRandomInt (int l, int u) {
@@ -28,28 +26,31 @@ namespace game {
 
 	class Snake {
 	public:
-		Snake (sf::RenderWindow*);
-		void drawSnake ();
+
+		Snake (sf::RenderWindow* w);
+		
+		void DrawSnake ();
+		void MoveSnake (sf::Vector2<int> direction);
+
 		bool died ();
 		bool ateFood (Food* fd);
-		void moveSnake (sf::Vector2<int> direction);
 
 		sf::Vector2f getNextFoodLocation ();
+
 	private:
 
 		sf::RenderWindow* screen;
-		Random rand;
-		
-		bool updateLenght;
-
-		float movementScale;
-
-		int snake_lenght;
-		std::list<sf::Vector2<int>> snake_direction_list;
 		sf::Vector2<int> lastDirection;
-		std::vector<sf::RectangleShape> body;
-
 		sf::Color colorBody;
 		sf::Color colorHead;
+
+		Random rand;
+
+		bool updateLength;
+		float movementScale;
+		int snake_length;
+		
+		std::list<sf::Vector2<int>> snake_direction_list;
+		std::vector<sf::RectangleShape> body;
 	};
 }
